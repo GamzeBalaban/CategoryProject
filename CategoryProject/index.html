@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamzeFashion</title>
+    <style>
+        /* Basic styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #ff4d4d;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #ff4d4d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #ff3333;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 50px 0 30px;
+            font-size: 2rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: #ff4d4d;
+            margin: 10px auto 0;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 0 5%;
+        }
+
+        .product {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ff4d4d;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #555;
+        }
+
+        .comments-section {
+            padding: 30px 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .comment-form,
+        .comments-list {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #ff3333;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 10px;
+            color: #777;
+        }
+
+        .comment {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+        }
+
+        .comment-category {
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .category-Trend {
+            background-color: #ffcc00;
+            color: #333;
+        }
+
+        .category-Jackets {
+            background-color: #5d9cec;
+            color: white;
+        }
+
+        .category-Intimate {
+            background-color: #ff7f7f;
+            color: white;
+        }
+
+        .category-Bottoms {
+            background-color: #66bb6a;
+            color: white;
+        }
+
+        .category-Dresses {
+            background-color: #ba68c8;
+            color: white;
+        }
+
+        .category-Tops {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 50px 5% 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 2px;
+            background-color: #ff4d4d;
+            margin-top: 5px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: #ff4d4d;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .comments-section {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">GamzeFashion</div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Clothing</a>
+                <a href="#">Departments</a>
+                <a href="#">Sale</a>
+                <a href="#">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Welcome to GamzeFashion</h1>
+            <p>Discover the latest trends in fashion. Quality clothing at affordable prices.</p>
+            <a href="#products" class="cta-button">Shop Now</a>
+        </section>
+
+        <h2 class="section-title" id="products">Featured Products</h2>
+        <section class="products">
+            <div class="product">
+                <div class="product-image">
+                    <img src="img/jacket.png" alt="Jacket">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title"> Jacket</h3>
+                    <div class="product-price">$89.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-image">
+                    <img src="img/dress.png" alt="dress">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Summer Dress</h3>
+                    <div class="product-price">$59.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image"><img src="img/jean.png" alt="jean">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Jeans</h3>
+                    <div class="product-price">$49.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product">
+                <div class="product-image">
+                    <img src="img/tshirt.png" alt="tshirt">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Graphic T-shirt</h3>
+                    <div class="product-price">$24.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="section-title">Customer Feedback</h2>
+        <section class="comments-section">
+            <div class="comment-form">
+                <h3>Leave a Comment</h3>
+                <form id="commentForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Your Comment</label>
+                        <textarea id="comment" rows="4" required></textarea>
+                    </div>
+
+                    <button type="submit">Submit Comment</button>
+                    <div id="loading" class="loading">Analyzing your comment...</div>
+                </form>
+            </div>
+
+            <div class="comments-list" id="commentsList">
+                <h3>Recent Comments</h3>
+                <!-- Comments will be added here by JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Departments</h3>
+                <ul>
+                    <li><a href="#">Trend</a></li>
+                    <li><a href="#">Jackets</a></li>
+                    <li><a href="#">Intimate</a></li>
+                    <li><a href="#">Bottoms</a></li>
+                    <li><a href="#">Dresses</a></li>
+                    <li><a href="#">Tops</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect With Us</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Pinterest</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2025 FashionHub. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Sample comments to start with
+        const initialComments = [
+            { name: "Emma Wilson", comment: "This leather jacket is perfect for fall weather. The quality is exceptional and it fits true to size.", department: "Jackets" },
+            { name: "Marcus Lee", comment: "I'm loving the new summer dress collection. The floral patterns are beautiful and the fabric is so comfortable.", department: "Dresses" },
+           
+        ];
+
+        // Initialize comments
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add initial comments
+            initialComments.forEach(commentData => {
+                addCommentToList(commentData);
+            });
+
+            // Add form submission handler
+            document.getElementById('commentForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const comment = document.getElementById('comment').value;
+
+                if (name && comment) {
+                    // Show loading indicator
+                    document.getElementById('loading').style.display = 'block';
+
+                    // Call the API to predict the department
+                    predictDepartment(comment)
+                        .then(department => {
+                            // Add the new comment with the predicted department
+                            addCommentToList({ name, comment, department });
+
+                            // Clear the form
+                            document.getElementById('name').value = '';
+                            document.getElementById('comment').value = '';
+
+                            // Hide loading indicator
+                            document.getElementById('loading').style.display = 'none';
+
+                            // Show success message
+                            alert('Thank you for your comment! Our system has categorized it under: ' + department);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Hide loading indicator
+                            document.getElementById('loading').style.display = 'none';
+                            alert('There was an error processing your comment. Please try again.');
+                        });
+                }
+            });
+        });
+
+        // Function to predict department using your FastAPI endpoint
+        async function predictDepartment(text) {
+                const response = await fetch('http://localhost:8000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ review_text: text }),  // <-- DOĞRU alan adı!
+                });
+
+                if (!response.ok) {
+                    throw new Error('API request failed with status: ' + response.status);
+                }
+
+                const data = await response.json();
+                return data.predict;  // <-- API'den gelen doğru anahtar
+            }
+
+    
+
+        // Function to add a comment to the list
+        function addCommentToList(commentData) {
+            const commentsList = document.getElementById('commentsList');
+
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment';
+
+            commentElement.innerHTML = `
+                <div class="comment-header">
+                    <span class="comment-author">${commentData.name}</span>
+                    <span class="comment-category category-${commentData.department}">${commentData.department}</span>
+                </div>
+                <div class="comment-text">
+                    ${commentData.comment}
+                </div>
+            `;
+
+            commentsList.appendChild(commentElement);
+        }
+
+        // Add to cart functionality
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function () {
+                const productTitle = this.parentElement.querySelector('.product-title').textContent;
+                alert(`${productTitle} added to cart!`);
+            });
+        });
+    </script>
+</body>
+
+</html>
